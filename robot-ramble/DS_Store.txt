@@ -1,0 +1,6 @@
+# macOS .DS_Store file (text version)
+# ===================================
+# Fragment 2: ts_d1rec
+#
+# Clue: I'm an Apache module page that shows live server
+# statistics. Visit me at /server-status to continue.

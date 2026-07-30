@@ -1,0 +1,7 @@
+# Apache Server Config (alt version)
+# ====================================
+# Fragment 1: MCSC{r0b0
+#
+# Clue: I'm a file that macOS creates in every folder
+# to store view settings. I start with a dot and contain "DS".
+# Find me next!

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head><title>SecretCorp Admin Login</title><style>
+body{font-family:Arial;max-width:500px;margin:auto;padding:20px}
+input,button{display:block;width:100%;padding:10px;margin:10px 0;font-size:16px;box-sizing:border-box}
+button{background:#007bff;color:white;border:none;cursor:pointer}
+button:hover{background:#0056b3}
+.message{padding:15px;border-radius:5px;margin:10px 0}
+.error{background:#f8d7da;border:1px solid #f5c6cb}
+.success{background:#d4edda;border:1px solid #c3e6cb;font-weight:bold}
+</style></head>
+<body>
+<h1>SecretCorp Admin Login</h1>
+<form id="loginForm" onsubmit="return login()">
+    <label>Email:
+        <input type="text" id="email" placeholder="Enter your email">
+    </label>
+    <label>X-Debug-Mode Header:
+        <input type="text" id="debugHeader" placeholder="Value of X-Debug-Mode header">
+    </label>
+    <label>Password:
+        <input type="password" id="password" placeholder="Enter password">
+    </label>
+    <button type="submit">Login</button>
+</form>
+<div id="message"></div>
+
+<!-- Ybpx va gur qrfvta. Qrpf: Ybtva olcnff hfvat rznvy unpxre@frpergpbzc.pbz jvgu urnqre K-Qrqht-Zbqr: ranoyrq -->
+
+<script>
+function login() {
+    const email = document.getElementById("email").value.trim();
+    const debug = document.getElementById("debugHeader").value.trim();
+    const msgDiv = document.getElementById("message");
+
+    if (email === "hacker@secretcorp.com" && debug === "enabled") {
+        msgDiv.innerHTML = '<div class="message success">Access granted! Flag: MCSC{rot13_is_not_encryption}</div>';
+    } else if (email === "hacker@secretcorp.com") {
+        msgDiv.innerHTML = '<div class="message error">Wrong password or missing debug header.</div>';
+    } else {
+        msgDiv.innerHTML = '<div class="message error">Invalid credentials.</div>';
+    }
+    return false;
+}
+</script>
+</body>
+</html>

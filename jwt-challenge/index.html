@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head><title>JWT Bank</title><style>
+body{font-family:Arial;max-width:800px;margin:auto;padding:20px}
+.card{border:1px solid #ccc;padding:15px;border-radius:8px;margin:10px 0}
+.card h3{margin:0}
+pre{background:#f4f4f4;padding:10px;border-radius:5px;overflow-x:auto}
+input,button{padding:8px;font-size:14px;margin:5px 0}
+.token-view{word-break:break-all;font-family:monospace;font-size:12px;background:#eee;padding:8px;border-radius:4px}
+.hidden{display:none}
+.flag{background:#d4edda;border:1px solid #c3e6cb;padding:15px;border-radius:5px;font-size:18px;font-weight:bold}
+</style></head>
+<body>
+<h1>JWT Bank</h1>
+<div class="card">
+    <h3>Your Current Token</h3>
+    <div class="token-view" id="tokenDisplay"></div>
+</div>
+<div class="card">
+    <h3>Decoded Payload</h3>
+    <pre id="payloadDisplay"></pre>
+</div>
+<div class="card">
+    <h3>Modify Your Token</h3>
+    <p>Change your role to <strong>admin</strong> to access the flag.</p>
+    <label>New role: <input type="text" id="roleInput" value="admin"></label>
+    <button onclick="modifyToken()">Encode &amp; Apply</button>
+</div>
+<div id="result"></div>
+<div class="card">
+    <h3>How JWT Works</h3>
+    <p>A JWT has 3 parts: <code>header.payload.signature</code></p>
+    <p>The server for this challenge <strong>does not verify</strong> the signature. This means you can modify the payload freely!</p>
+    <p>Current token uses <code>"alg":"none"</code> — no signature at all.</p>
+</div>
+
+<script>
+// Simulated JWT: header={"alg":"none"}, payload={"role":"user","credits":10}
+const HEADER = {alg: "none"};
+let payload = {role: "user", credits: 10};
+
+function b64encode(obj) {
+    return btoa(JSON.stringify(obj)).replace(/=/g, "").replace(/\+/g, "-").replace(/\//g, "_");
+}
+
+function b64decode(str) {
+    try {
+        return JSON.parse(atob(str));
+    } catch(e) {
+        return null;
+    }
+}
+
+function buildToken() {
+    return b64encode(HEADER) + "." + b64encode(payload) + ".";
+}
+
+function updateDisplay() {
+    document.getElementById("tokenDisplay").textContent = buildToken();
+    document.getElementById("payloadDisplay").textContent = JSON.stringify(payload, null, 2);
+    const flagDiv = document.getElementById("result");
+    if (payload.role === "admin") {
+        flagDiv.innerHTML = '<div class="flag">Access Granted! Flag: MCSC{jwt_without_signature_is_unsafe}</div>';
+    } else {
+        flagDiv.innerHTML = '<div class="card" style="background:#fff3cd">Access Denied. Your role: "' + payload.role + '". Try changing it to "admin".</div>';
+    }
+}
+
+function modifyToken() {
+    const newRole = document.getElementById("roleInput").value.trim() || "user";
+    payload.role = newRole;
+    payload.credits = 999;
+    updateDisplay();
+}
+
+// Initial display
+updateDisplay();
+</script>
+</body>
+</html>
